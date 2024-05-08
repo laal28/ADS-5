@@ -2,8 +2,7 @@
 #include <string>
 #include <map>
 #include <memory>
-#include <stdint>
-#include <stddef>
+#include <cstddef>
 #include <cstdint>
 
 template <typename T, uint size>
