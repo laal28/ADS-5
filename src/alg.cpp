@@ -8,49 +8,49 @@
 
 template <typename T, uint size>
 class TStack {
-private:
-    T *stackArray;
-    uint topIndex;
-
-public:
-    TStack() {
-        stackArray = ( T* )malloc(sizeof(T) * size);
-        topIndex = -1;
-    }
-
-    ~TStack() {
-        free(stackArray);
-    }
-
-    void push(T item) {
-        if (topIndex != size - 1)
-        {
-            topIndex++;
-            stackArray[topIndex] = item;
+    private:
+        T *stackArray;
+        uint topIndex;
+    
+    public:
+        TStack() {
+            stackArray = ( T* )malloc(sizeof(T) * size);
+            topIndex = -1;
         }
-    }
-
-    T pop() {
-        if (topIndex != -1) {
-            T element = stackArray[topIndex];
-            topIndex--;
-            return element;
-        } else {
-            return T();
+    
+        ~TStack() {
+            free(stackArray);
         }
-    }
-
-    T peek() const {
-        if (topIndex == -1) {
-            return T();
-        } else {
-            return stackArray[topIndex];
+    
+        void push(T item) {
+            if (topIndex != size - 1)
+            {
+                topIndex++;
+                stackArray[topIndex] = item;
+            }
         }
-    }
-
-    bool isempty() const {
-        return topIndex == -1;
-    }
+    
+        T pop() {
+            if (topIndex != -1) {
+                T element = stackArray[topIndex];
+                topIndex--;
+                return element;
+            } else {
+                return T();
+            }
+        }
+    
+        T peek() const {
+            if (topIndex == -1) {
+                return T();
+            } else {
+                return stackArray[topIndex];
+            }
+        }
+    
+        bool isempty() const {
+            return topIndex == -1;
+        }
 };
 
 std::string infx2pstfx(std::string inf) {
@@ -62,8 +62,7 @@ std::string infx2pstfx(std::string inf) {
             pst += ' ';
         } else if (inf[i] == '(') {
             stack1.push('(');
-        }
-        else if (inf[i] == ')') {
+        } else if (inf[i] == ')') {
             while (!stack1.isempty() && stack1.peek() != '(') {
                 pst += stack1.peek();
                 pst += ' ';
@@ -72,10 +71,13 @@ std::string infx2pstfx(std::string inf) {
             if (!stack1.isempty()) {
                 stack1.pop();
             }
-        }
-        else {
+        } else {
             while (!stack1.isempty() && stack1.peek() != '(' &&
-                   (inf[i] == '+' || stack1.peek() == '*' || stack1.peek() == '/')) {
+                   (
+                      inf[i] == '+' ||
+                      stack1.peek() == '*' ||
+                      stack1.peek() == '/'
+                )) {
                 pst += stack1.peek();
                 pst += ' ';
                 stack1.pop();
