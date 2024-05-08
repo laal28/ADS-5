@@ -7,11 +7,11 @@
 
 template <typename T, uint size>
 class TStack {
-     private:
+ private:
         T *stackArray;
         uint topIndex;
-    
-     public:
+
+ public:
         TStack() {
             stackArray = ( T* )malloc(sizeof(T) * size);
             topIndex = -1;
