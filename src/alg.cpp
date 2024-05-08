@@ -6,8 +6,6 @@
 #include <stddef.h>
 #include <cstdint>
 
-typedef uint64_t uint;
-
 template <typename T, uint size>
 class TStack
 {
@@ -18,7 +16,7 @@ private:
 public:
     TStack()
     {
-        stackArray = malloc(sizeof(T) * size);
+        stackArray = ( T* )malloc(sizeof(T) * size);
         topIndex = -1;
     }
 
