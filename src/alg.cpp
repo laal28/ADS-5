@@ -7,26 +7,22 @@
 #include <cstdint>
 
 template <typename T, uint size>
-class TStack
-{
+class TStack {
 private:
     T *stackArray;
     uint topIndex;
 
 public:
-    TStack()
-    {
+    TStack() {
         stackArray = ( T* )malloc(sizeof(T) * size);
         topIndex = -1;
     }
 
-    ~TStack()
-    {
+    ~TStack() {
         free(stackArray);
     }
 
-    void push(T item)
-    {
+    void push(T item) {
         if (topIndex != size - 1)
         {
             topIndex++;
@@ -34,71 +30,52 @@ public:
         }
     }
 
-    T pop()
-    {
-        if (topIndex != -1)
-        {
+    T pop() {
+        if (topIndex != -1) {
             T element = stackArray[topIndex];
             topIndex--;
             return element;
-        }
-        else
-        {
+        } else {
             return T();
         }
     }
 
-    T peek() const
-    {
-        if (topIndex == -1)
-        {
+    T peek() const {
+        if (topIndex == -1) {
             return T();
-        }
-        else
-        {
+        } else {
             return stackArray[topIndex];
         }
     }
 
-    bool isempty() const
-    {
+    bool isempty() const {
         return topIndex == -1;
     }
 };
 
-std::string infx2pstfx(std::string inf)
-{
+std::string infx2pstfx(std::string inf) {
     TStack<char, 100> stack1;
     std::string pst = "";
-    for (int i = 0; i < inf.length(); i++)
-    {
-        if (inf[i] >= '0' && inf[i] <= '9')
-        {
+    for (int i = 0; i < inf.length(); i++) {
+        if (inf[i] >= '0' && inf[i] <= '9') {
             pst += inf[i];
             pst += ' ';
-        }
-        else if (inf[i] == '(')
-        {
+        } else if (inf[i] == '(') {
             stack1.push('(');
         }
-        else if (inf[i] == ')')
-        {
-            while (!stack1.isempty() && stack1.peek() != '(')
-            {
+        else if (inf[i] == ')') {
+            while (!stack1.isempty() && stack1.peek() != '(') {
                 pst += stack1.peek();
                 pst += ' ';
                 stack1.pop();
             }
-            if (!stack1.isempty())
-            {
+            if (!stack1.isempty()) {
                 stack1.pop();
             }
         }
-        else
-        {
+        else {
             while (!stack1.isempty() && stack1.peek() != '(' &&
-                   (inf[i] == '+' || stack1.peek() == '*' || stack1.peek() == '/'))
-            {
+                   (inf[i] == '+' || stack1.peek() == '*' || stack1.peek() == '/')) {
                 pst += stack1.peek();
                 pst += ' ';
                 stack1.pop();
@@ -106,47 +83,39 @@ std::string infx2pstfx(std::string inf)
             stack1.push(inf[i]);
         }
     }
-    while (!stack1.isempty())
-    {
+    while (!stack1.isempty()) {
         pst += stack1.peek();
         pst += ' ';
         stack1.pop();
     }
-    if (!pst.empty())
-    {
+    if (!pst.empty()) {
         pst.erase(pst.size() - 1);
     }
     return pst;
 }
 
-int eval(std::string pref)
-{
+int eval(std::string pref) {
     TStack<int, 100> stack2;
-    for (int i = 0; i < pref.length(); i++)
-    {
+    for (int i = 0; i < pref.length(); i++) {
         char ch = pref[i];
-        if (isdigit(ch))
-        {
+        if (isdigit(ch)) {
             stack2.push(ch - '0');
-        }
-        else if (ch == '+' || ch == '-' || ch == '/' || ch == '*')
-        {
+        } else if (ch == '+' || ch == '-' || ch == '/' || ch == '*') {
             int operand2 = stack2.pop();
             int operand1 = stack2.pop();
-            switch (ch)
-            {
-            case '+':
-                stack2.push(operand1 + operand2);
-                break;
-            case '-':
-                stack2.push(operand1 - operand2);
-                break;
-            case '*':
-                stack2.push(operand1 * operand2);
-                break;
-            case '/':
-                stack2.push(operand1 / operand2);
-                break;
+            switch (ch) {
+                case '+':
+                    stack2.push(operand1 + operand2);
+                    break;
+                case '-':
+                    stack2.push(operand1 - operand2);
+                    break;
+                case '*':
+                    stack2.push(operand1 * operand2);
+                    break;
+                case '/':
+                    stack2.push(operand1 / operand2);
+                    break;
             }
         }
     }
