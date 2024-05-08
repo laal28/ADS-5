@@ -1,35 +1,34 @@
 // Copyright 2021 NNTU-CS
 #include <string>
 #include <map>
-#include <memory.h>
-#include <stdint.h>
-#include <stddef.h>
+#include <memory>
+#include <stdint>
+#include <stddef>
 #include <cstdint>
 
 template <typename T, uint size>
 class TStack {
-    private:
+     private:
         T *stackArray;
         uint topIndex;
     
-    public:
+     public:
         TStack() {
             stackArray = ( T* )malloc(sizeof(T) * size);
             topIndex = -1;
         }
-    
+
         ~TStack() {
             free(stackArray);
         }
-    
+
         void push(T item) {
-            if (topIndex != size - 1)
-            {
+            if (topIndex != size - 1) {
                 topIndex++;
                 stackArray[topIndex] = item;
             }
         }
-    
+
         T pop() {
             if (topIndex != -1) {
                 T element = stackArray[topIndex];
@@ -39,7 +38,7 @@ class TStack {
                 return T();
             }
         }
-    
+
         T peek() const {
             if (topIndex == -1) {
                 return T();
@@ -47,7 +46,7 @@ class TStack {
                 return stackArray[topIndex];
             }
         }
-    
+
         bool isempty() const {
             return topIndex == -1;
         }
@@ -76,8 +75,7 @@ std::string infx2pstfx(std::string inf) {
                    (
                       inf[i] == '+' ||
                       stack1.peek() == '*' ||
-                      stack1.peek() == '/'
-                )) {
+                      stack1.peek() == '/')) {
                 pst += stack1.peek();
                 pst += ' ';
                 stack1.pop();
